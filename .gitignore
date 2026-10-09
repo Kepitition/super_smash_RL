@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
+
+# Training output: checkpoints, TensorBoard logs and console logs.
+# The trained Smash model that ships with the repo is in super_smash/models/.
+runs/
+*.log
+
+# Game images are copyrighted and huge: never commit them (each person supplies their own).
+*.iso
+*.ciso
+*.gcm
+*.rvz
+*.nkit.*
+*.zip
+!super_smash/models/*.zip
+
+# Emulators (downloaded by super_smash/setup.sh) and the Dolphin settings play.py keeps.
+super_smash/dolphin/
