@@ -1,0 +1,18 @@
+# Melee interface (talks to Slippi Dolphin)
+melee==0.47.3
+
+# RL + deep learning
+gymnasium==0.29.1
+cloudpickle  # sends env factories to the worker processes
+torch>=2.2
+numpy>=1.24,<2
+
+# Logging, utilities
+tensorboard>=2.15
+tqdm
+rich
+
+# Replays and tests
+peppi-py==0.8.6
+pytest
+huggingface_hub
