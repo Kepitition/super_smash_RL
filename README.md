@@ -51,7 +51,8 @@ headless (the ExiAI Dolphin build is a Linux AppImage).
   CPU (`opponent`, `cpu_level`), a random CPU character every game (`RANDOM`), a
   person (`HUMAN`), a bot (`opponent_bot`, e.g. the Ganondorf bot below) or a second
   policy (`POLICY`, self-play: each step then takes two controllers, both delayed).
-  `stages`: one or more stage names. `save_replays`: a directory for Slippi replays.
+  `stages`: one or more stage names. `save_replays`: a directory for Slippi replays
+  (one `port<port>` subfolder per game, since Slippi names replays by the second).
   `reward`: weights for `smash_rl/reward.py` (else the reward is 0). A Dolphin that
   crashes or freezes mid-game ends only that game; the next reset starts a new Dolphin.
 - **Parallel games:** `smash_rl.vec_env.make_vec_env(n_envs, base_port, ...)`, one
@@ -269,6 +270,7 @@ each, and play style against 22 master-level human Fox players (Fox dittos on FD
 | `smash_rl/ganondorf.py` | The Ganondorf bot as a port 2 opponent |
 | `smash_rl/fox_bot.py` | Our Fox for other libmelee match scripts |
 | `models/` | Shared trained models |
+| `poster/` | Course poster (A2, LaTeX): `make_figures.py` (figures and numbers, `--evaluate SNAPSHOT` plays the evaluation games first), `capture_combos.py` (screenshots of the bot's combos from the Dolphin window), `build.ps1` |
 | `smash_rl/reward.py` | Phase 2 reward |
 | `smash_rl/ppo.py` | PPO with the KL penalty to the imitation policy, value network |
 | `train_rl.py` | Reinforcement learning script |

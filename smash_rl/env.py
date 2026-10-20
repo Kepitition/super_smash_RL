@@ -64,6 +64,7 @@ class SmashEnv(gym.Env):
     stages: one or more stage names; with several, each game picks one at random.
     reward: keyword arguments of smash_rl.reward.Reward (None: reward 0).
     save_replays: a directory where Dolphin saves a Slippi replay of every game.
+    window_size: (width, height) of the game window (default 480x360, 1152x864 for HUMAN).
     """
 
     metadata = {"render_modes": []}
@@ -73,7 +74,7 @@ class SmashEnv(gym.Env):
                  dolphin_path: str = None, dolphin_home: str = None, iso_path: str = DEFAULT_ISO,
                  gfx_backend: str = "OGL", gfx_settings: dict = None, emulation_speed: float = 0.0,
                  max_menu_frames: int = 6000, connect_timeout: float = 120.0, save_replays: str = None,
-                 opponent_bot=None, reward: dict = None):
+                 opponent_bot=None, reward: dict = None, window_size: tuple = None):
         super().__init__()
         self.character = melee.Character[character.upper()]
         # Each env gets its own copy: in-process envs share their constructor arguments.
@@ -99,7 +100,7 @@ class SmashEnv(gym.Env):
         self.dolphin = Dolphin(
             port, headless=headless, dolphin_path=dolphin_path, dolphin_home=dolphin_home, iso_path=iso_path,
             gfx_backend=gfx_backend, gfx_settings=gfx_settings, emulation_speed=emulation_speed,
-            connect_timeout=connect_timeout, human_opponent=self.human_opponent,
+            connect_timeout=connect_timeout, human_opponent=self.human_opponent, window_size=window_size,
             instant_restart=instant_restart, save_replays=save_replays)
         self.queue = DelayQueue(delay)
         self.opponent_queue = DelayQueue(delay)

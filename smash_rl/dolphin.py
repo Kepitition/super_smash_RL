@@ -189,12 +189,15 @@ class Dolphin:
     """One Dolphin: `pad` drives port 1, `cpu_pad` port 2 (None when a person plays port 2).
 
     save_replays: a directory where Dolphin writes a Slippi replay of every game, or None.
+    Each port writes into its own subfolder (port<port>): Slippi names replays by the
+    second, so parallel games ending together overwrote each other.
     """
 
     def __init__(self, port: int, *, headless: bool = False, dolphin_path: str = None,
                  dolphin_home: str = None, iso_path: str = DEFAULT_ISO, gfx_backend: str = "OGL",
                  gfx_settings: dict = None, emulation_speed: float = 0.0, connect_timeout: float = 120.0,
-                 human_opponent: bool = False, instant_restart: bool = False, save_replays: str = None):
+                 human_opponent: bool = False, instant_restart: bool = False, save_replays: str = None,
+                 window_size: tuple = None):
         if headless and not CAN_RUN_HEADLESS:
             raise ValueError(f"headless mode needs Linux (the ExiAI Dolphin is a Linux AppImage), not {SYSTEM}")
         self.port = port
@@ -207,8 +210,10 @@ class Dolphin:
         self.emulation_speed = emulation_speed
         self.connect_timeout = connect_timeout
         self.human_opponent = human_opponent
+        # Small windows for training; a person needs a big one.
+        self.window_size = window_size or ((1152, 864) if human_opponent else (480, 360))
         self.instant_restart = instant_restart
-        self.save_replays = save_replays
+        self.save_replays = os.path.join(save_replays, f"port{port}") if save_replays else None
         for path in (self.dolphin_path, self.iso_path):
             if not os.path.isfile(path):
                 raise FileNotFoundError(f"{path} not found - see setup.ps1 (Windows) or setup.sh")
@@ -258,10 +263,13 @@ class Dolphin:
         # leave duplicate keys behind in a Dolphin folder that is kept between runs.
         cfg = configparser.ConfigParser()
         cfg.read(dolphin_ini)
-        width, height = (1152, 864) if self.human_opponent else (480, 360)
+        width, height = self.window_size
         cfg.set("Display", "RenderWindowWidth", str(width))
         cfg.set("Display", "RenderWindowHeight", str(height))
         cfg.set("Display", "RenderWindowAutoSize", "False")
+        if not cfg.has_section("Interface"):
+            cfg.add_section("Interface")
+        cfg.set("Interface", "OnScreenDisplayMessages", "False")  # no text over the game
         if self.human_opponent:  # port 2 is a standard controller mapped in Dolphin
             cfg.set("Core", "SIDevice1", melee.ControllerType.STANDARD.value)
         with open(dolphin_ini, "w") as f:

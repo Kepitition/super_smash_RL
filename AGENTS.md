@@ -36,6 +36,7 @@ Human docs: `README.md`. Designs: `docs/superpowers/specs/`, plans: `docs/superp
 | `smash_rl/ganondorf.py` | `GanondorfBot`: a friend's SB3 Ganondorf (847→256→256→31 MLP) in numpy, for `SmashEnv(opponent_bot=...)` on port 2 (human-type slot, acts every frame); matches its `PPO.predict` exactly |
 | `smash_rl/fox_bot.py` | `FoxBot`: our policy behind the Ganondorf bot's interface (`act(gs, controller)`, `reset()`), own 18-frame queue, for other people's libmelee loops |
 | `models/` | Shared models (in git, ~40 MB each, keep it to a few): `fox_rl_3h.pt` |
+| `poster/` | DML course poster on the course template (don't change the theme `.sty` files): `poster.tex` takes every number from `fig/results.tex`, written with the figures by `make_figures.py` from `runs/` logs and `runs/poster/` evaluations; screenshots come from `capture_combos.py` (frame-stepped Dolphin + `PrintWindow`; raw frames in git-ignored `poster/frames/`, crops in `make_figures.HERO`/`STRIP`); `build.ps1` (MiKTeX) |
 | `prepare_data.py`, `train_bc.py`, `evaluate.py` (`--ganondorf`, `--versus`), `test_env.py` | Scripts |
 | `play.py` | Human (Xbox pad, port 2) vs a bot; mapping in `dolphin/play_home/Config/GCPadNew.ini` |
 | `dolphin/` | Not in git: `Slippi Dolphin\` (portable 3.6.4) and `instances\slip<port>\` |

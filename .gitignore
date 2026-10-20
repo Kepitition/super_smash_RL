@@ -22,3 +22,15 @@ runs/
 
 # Emulators (downloaded by setup.ps1 / setup.sh) and the per-port Dolphin copies made on Windows.
 dolphin/
+
+# LaTeX build files of the poster (poster.pdf itself is kept).
+poster/*.aux
+poster/*.bbl
+poster/*.blg
+poster/*.nav
+poster/*.out
+poster/*.snm
+poster/*.toc
+poster/img/*-converted-to.pdf
+# Raw screenshots from capture_combos.py (the poster uses the figures made from them).
+poster/frames/
